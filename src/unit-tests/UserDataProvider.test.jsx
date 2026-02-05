@@ -51,15 +51,29 @@ describe('UserDataProvider Component', () => {
 
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledWith('https://randomuser.me/api/?results=10');
+        expect(screen.getByTestId('mock-loading')).toHaveTextContent('false');
       });
     });
 
-    it('passes loading=true to UserList while fetching data', () => {
-      global.fetch.mockImplementation(() => new Promise(() => {})); // Never resolves
+    it('passes loading=true to UserList while fetching data', async () => {
+      let resolvePromise;
+      global.fetch.mockImplementation(() => new Promise((resolve) => {
+        resolvePromise = resolve;
+      }));
 
       render(<UserDataProvider />);
 
       expect(screen.getByTestId('mock-loading')).toHaveTextContent('true');
+
+      // Resolve to avoid pending promises
+      resolvePromise({
+        ok: true,
+        json: () => Promise.resolve(createMockApiResponse([])),
+      });
+
+      await waitFor(() => {
+        expect(screen.getByTestId('mock-loading')).toHaveTextContent('false');
+      });
     });
 
     it('passes fetched users to UserList after successful fetch', async () => {

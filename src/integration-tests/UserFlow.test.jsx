@@ -41,14 +41,32 @@ describe('User Flow Integration Tests', () => {
 
       expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Testing Patterns Demo');
       expect(screen.getByText('A simple app demonstrating component separation patterns')).toBeInTheDocument();
+
+      // Wait for fetch to complete to avoid act() warning
+      await waitFor(() => {
+        expect(screen.queryByText('Loading users...')).not.toBeInTheDocument();
+      });
     });
 
-    it('should see a loading indicator while users are being fetched', () => {
-      global.fetch.mockImplementation(() => new Promise(() => {}));
+    it('should see a loading indicator while users are being fetched', async () => {
+      let resolvePromise;
+      global.fetch.mockImplementation(() => new Promise((resolve) => {
+        resolvePromise = resolve;
+      }));
 
       render(<App />);
 
       expect(screen.getByText('Loading users...')).toBeInTheDocument();
+
+      // Resolve to avoid pending promises
+      resolvePromise({
+        ok: true,
+        json: () => Promise.resolve(createMockApiResponse([])),
+      });
+
+      await waitFor(() => {
+        expect(screen.queryByText('Loading users...')).not.toBeInTheDocument();
+      });
     });
 
     it('should see a list of users after they are loaded', async () => {
