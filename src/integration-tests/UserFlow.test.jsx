@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import App from '../App';
 
 // Mock user data that simulates realistic API responses
@@ -113,76 +112,6 @@ describe('User Flow Integration Tests', () => {
     });
   });
 
-  describe('When a user wants to refresh the data', () => {
-    it('should see a refresh button', async () => {
-      global.fetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(createMockApiResponse([])),
-      });
-
-      render(<App />);
-
-      expect(screen.getByRole('button', { name: 'Refresh Users' })).toBeInTheDocument();
-    });
-
-    it('should see new users after clicking the refresh button', async () => {
-      const user = userEvent.setup();
-      const initialUsers = [
-        createMockUser({ uuid: '1', firstName: 'Old', lastName: 'User' }),
-      ];
-      const refreshedUsers = [
-        createMockUser({ uuid: '2', firstName: 'New', lastName: 'User' }),
-      ];
-
-      global.fetch
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve(createMockApiResponse(initialUsers)),
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: () => Promise.resolve(createMockApiResponse(refreshedUsers)),
-        });
-
-      render(<App />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Old User')).toBeInTheDocument();
-      });
-
-      const refreshButton = screen.getByRole('button', { name: 'Refresh Users' });
-      await user.click(refreshButton);
-
-      await waitFor(() => {
-        expect(screen.getByText('New User')).toBeInTheDocument();
-      });
-      expect(screen.queryByText('Old User')).not.toBeInTheDocument();
-    });
-
-    it('should see loading state while data is being refreshed', async () => {
-      const user = userEvent.setup();
-      const mockUsers = [createMockUser()];
-
-      global.fetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(createMockApiResponse(mockUsers)),
-      });
-
-      render(<App />);
-
-      await waitFor(() => {
-        expect(screen.getByText('John Doe')).toBeInTheDocument();
-      });
-
-      global.fetch.mockImplementationOnce(() => new Promise(() => {}));
-
-      const refreshButton = screen.getByRole('button', { name: 'Refresh Users' });
-      await user.click(refreshButton);
-
-      expect(screen.getByText('Loading users...')).toBeInTheDocument();
-    });
-  });
-
   describe('When an error occurs', () => {
     it('should see an error message when the API fails to load', async () => {
       global.fetch.mockRejectedValueOnce(new Error('Unable to connect'));
@@ -205,32 +134,6 @@ describe('User Flow Integration Tests', () => {
       await waitFor(() => {
         expect(screen.getByText('Error: Failed to fetch users')).toBeInTheDocument();
       });
-    });
-
-    it('should be able to recover from an error by clicking refresh', async () => {
-      const user = userEvent.setup();
-
-      global.fetch.mockRejectedValueOnce(new Error('Temporary failure'));
-
-      render(<App />);
-
-      await waitFor(() => {
-        expect(screen.getByText('Error: Temporary failure')).toBeInTheDocument();
-      });
-
-      const mockUsers = [createMockUser({ firstName: 'Recovered', lastName: 'User' })];
-      global.fetch.mockResolvedValueOnce({
-        ok: true,
-        json: () => Promise.resolve(createMockApiResponse(mockUsers)),
-      });
-
-      const refreshButton = screen.getByRole('button', { name: 'Refresh Users' });
-      await user.click(refreshButton);
-
-      await waitFor(() => {
-        expect(screen.getByText('Recovered User')).toBeInTheDocument();
-      });
-      expect(screen.queryByText('Error: Temporary failure')).not.toBeInTheDocument();
     });
   });
 });

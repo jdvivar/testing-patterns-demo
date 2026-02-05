@@ -10,42 +10,33 @@ function UserDataProvider() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    setError(null);
-    
-    try {
-      const response = await fetch('https://randomuser.me/api/?results=10');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch users');
-      }
-      
-      const data = await response.json();
-      setUsers(data.results);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch('https://randomuser.me/api/?results=10');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch users');
+        }
+        
+        const data = await response.json();
+        setUsers(data.results);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchUsers();
   }, []);
 
   return (
-    <div className="user-data-provider">
-      <button onClick={fetchUsers} className="refresh-button">
-        Refresh Users
-      </button>
-      
-      <UserList 
-        users={users} 
-        loading={loading} 
-        error={error} 
-      />
-    </div>
+    <UserList 
+      users={users} 
+      loading={loading} 
+      error={error} 
+    />
   );
 }
 
