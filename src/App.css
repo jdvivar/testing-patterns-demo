@@ -1,0 +1,179 @@
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+header h1 {
+  color: #213547;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  color: #666;
+}
+
+.user-data-provider {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.filter-input:focus {
+  border-color: #646cff;
+}
+
+.refresh-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: #535bf2;
+}
+
+.user-list-status {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+}
+
+.user-list-status.error {
+  color: #dc3545;
+}
+
+.user-list h2 {
+  margin-bottom: 1rem;
+  color: #213547;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.user-grid-item {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-grid-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-grid-avatar:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.user-popover {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  min-width: 200px;
+  text-align: center;
+  z-index: 10;
+  margin-bottom: 0.5rem;
+}
+
+.user-popover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 8px solid transparent;
+  border-top-color: white;
+}
+
+.user-popover h3 {
+  margin: 0 0 0.5rem;
+  color: #213547;
+  font-size: 1rem;
+}
+
+.user-email {
+  margin: 0 0 0.25rem;
+  color: #646cff;
+  font-size: 0.85rem;
+}
+
+.user-location {
+  margin: 0;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app {
+    color: #ffffffde;
+  }
+  
+  header h1 {
+    color: #fff;
+  }
+  
+  .filter-input {
+    background: #1a1a1a;
+    border-color: #444;
+    color: #fff;
+  }
+  
+  .user-list h2 {
+    color: #fff;
+  }
+  
+  .user-popover {
+    background: #2a2a2a;
+  }
+  
+  .user-popover::after {
+    border-top-color: #2a2a2a;
+  }
+  
+  .user-popover h3 {
+    color: #fff;
+  }
+}
