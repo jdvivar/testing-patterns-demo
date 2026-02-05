@@ -1,12 +1,8 @@
-import { useState } from 'react';
-
 /**
  * UserList - UI rendering component
- * Responsible for displaying filtered user data in a grid layout
+ * Responsible for displaying filtered user data
  */
 function UserList({ users, loading, error }) {
-  const [hoveredUser, setHoveredUser] = useState(null);
-
   if (loading) {
     return (
       <div className="user-list-status">
@@ -34,31 +30,24 @@ function UserList({ users, loading, error }) {
   return (
     <div className="user-list">
       <h2>Users ({users.length})</h2>
-      <div className="user-grid">
+      <ul>
         {users.map((user) => (
-          <div 
-            key={user.login.uuid} 
-            className="user-grid-item"
-            onMouseEnter={() => setHoveredUser(user.login.uuid)}
-            onMouseLeave={() => setHoveredUser(null)}
-          >
+          <li key={user.login.uuid} className="user-card">
             <img 
-              src={user.picture.large || user.picture.thumbnail} 
+              src={user.picture.thumbnail} 
               alt={`${user.name.first} ${user.name.last}`}
-              className="user-grid-avatar"
+              className="user-avatar"
             />
-            {hoveredUser === user.login.uuid && (
-              <div className="user-popover">
-                <h3>{user.name.first} {user.name.last}</h3>
-                <p className="user-email">{user.email}</p>
-                <p className="user-location">
-                  {user.location.city}, {user.location.country}
-                </p>
-              </div>
-            )}
-          </div>
+            <div className="user-info">
+              <h3>{user.name.first} {user.name.last}</h3>
+              <p className="user-email">{user.email}</p>
+              <p className="user-location">
+                {user.location.city}, {user.location.country}
+              </p>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }
