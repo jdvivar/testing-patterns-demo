@@ -1,6 +1,6 @@
 /**
  * UserList - UI rendering component
- * Responsible for displaying filtered user data
+ * Responsible for displaying user data
  */
 function UserList({ users, loading, error }) {
   if (loading) {
@@ -22,7 +22,7 @@ function UserList({ users, loading, error }) {
   if (users.length === 0) {
     return (
       <div className="user-list-status">
-        <p>No users found matching your filter.</p>
+        <p>No users found.</p>
       </div>
     );
   }

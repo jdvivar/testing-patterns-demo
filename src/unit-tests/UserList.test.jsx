@@ -55,10 +55,10 @@ describe('UserList Component', () => {
   });
 
   describe('Empty State', () => {
-    it('displays a helpful message when no users match the filter', () => {
+    it('displays a helpful message when there are no users', () => {
       render(<UserList users={[]} loading={false} error={null} />);
       
-      expect(screen.getByText('No users found matching your filter.')).toBeInTheDocument();
+      expect(screen.getByText('No users found.')).toBeInTheDocument();
     });
 
     it('does not display an empty list element when there are no users', () => {

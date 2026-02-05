@@ -9,7 +9,6 @@ function UserDataProvider() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [filter, setFilter] = useState('');
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -35,32 +34,14 @@ function UserDataProvider() {
     fetchUsers();
   }, []);
 
-  // Filter users based on search input
-  const filteredUsers = users.filter((user) => {
-    const fullName = `${user.name.first} ${user.name.last}`.toLowerCase();
-    const email = user.email.toLowerCase();
-    const searchTerm = filter.toLowerCase();
-    
-    return fullName.includes(searchTerm) || email.includes(searchTerm);
-  });
-
   return (
     <div className="user-data-provider">
-      <div className="controls">
-        <input
-          type="text"
-          placeholder="Filter by name or email..."
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="filter-input"
-        />
-        <button onClick={fetchUsers} className="refresh-button">
-          Refresh Users
-        </button>
-      </div>
+      <button onClick={fetchUsers} className="refresh-button">
+        Refresh Users
+      </button>
       
       <UserList 
-        users={filteredUsers} 
+        users={users} 
         loading={loading} 
         error={error} 
       />

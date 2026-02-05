@@ -24,27 +24,6 @@ header p {
   gap: 1.5rem;
 }
 
-.controls {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.filter-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-
-.filter-input:focus {
-  border-color: #646cff;
-}
-
 .refresh-button {
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -54,6 +33,7 @@ header p {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s;
+  align-self: flex-start;
 }
 
 .refresh-button:hover {
@@ -135,12 +115,6 @@ header p {
   }
   
   header h1 {
-    color: #fff;
-  }
-  
-  .filter-input {
-    background: #1a1a1a;
-    border-color: #444;
     color: #fff;
   }
   
