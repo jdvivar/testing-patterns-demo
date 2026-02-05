@@ -114,12 +114,12 @@ describe('User Flow Integration Tests', () => {
 
   describe('When an error occurs', () => {
     it('should see an error message when the API fails to load', async () => {
-      global.fetch.mockRejectedValueOnce(new Error('Unable to connect'));
+      global.fetch.mockRejectedValueOnce(new Error('any error'));
 
       render(<App />);
 
       await waitFor(() => {
-        expect(screen.getByText('Error: Unable to connect')).toBeInTheDocument();
+        expect(screen.getByText('Error: An error occurred while fetching users, please try again later.')).toBeInTheDocument();
       });
     });
 
@@ -132,7 +132,7 @@ describe('User Flow Integration Tests', () => {
       render(<App />);
 
       await waitFor(() => {
-        expect(screen.getByText('Error: Failed to fetch users')).toBeInTheDocument();
+        expect(screen.getByText('Error: An error occurred while fetching users, please try again later.')).toBeInTheDocument();
       });
     });
   });

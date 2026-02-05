@@ -103,7 +103,7 @@ describe('UserDataProvider Component', () => {
       render(<UserDataProvider />);
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-error')).toHaveTextContent('Network error');
+        expect(screen.getByTestId('mock-error')).toHaveTextContent('An error occurred while fetching users, please try again later.');
       });
     });
 
@@ -116,7 +116,7 @@ describe('UserDataProvider Component', () => {
       render(<UserDataProvider />);
 
       await waitFor(() => {
-        expect(screen.getByTestId('mock-error')).toHaveTextContent('Failed to fetch users');
+        expect(screen.getByTestId('mock-error')).toHaveTextContent('An error occurred while fetching users, please try again later.');
       });
     });
 

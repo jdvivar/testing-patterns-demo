@@ -16,13 +16,13 @@ function UserDataProvider() {
         const response = await fetch('https://randomuser.me/api/?results=10');
         
         if (!response.ok) {
-          throw new Error('Failed to fetch users');
+          throw new Error();
         }
         
         const data = await response.json();
         setUsers(data.results);
-      } catch (err) {
-        setError(err.message);
+      } catch {
+        setError('An error occurred while fetching users, please try again later.');
       } finally {
         setLoading(false);
       }
